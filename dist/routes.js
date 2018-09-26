@@ -1,11 +1,7 @@
-$(document).ready(() => {
-  page('/', index);
-  page('/:categoryName', getRecipesList);
-  page('/product/:productId', product);
-  page();
-  
-});
-
+ page('/', index);
+ page('/:categoryName', getRecipesList);
+ page('/:categoryName/:recipeName', getRecipePage);
+ page();
 
 function index() {
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -63,7 +59,7 @@ function getEachCategory(data) {
   );
 }
 
-async function getRecipesList(ctx) {
+function getRecipesList(ctx) {
   let thisCategory = ctx.params.categoryName;
   mainTemplateDefault('recipes-list', thisCategory);
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=' + thisCategory.replace(' ','_');
@@ -71,30 +67,31 @@ async function getRecipesList(ctx) {
   requestAPI(url, success);
 }
 
+function getRecipePage(ctx) {
+  let drinkName = ctx.params.recipeName;
+  console.log(drinkName);
+}
+
 function getEachRecipe(data) {
-  data['drinks'].map(el =>
+  data['drinks'].map((el, i) =>
     $('#recipes-list').append(`
       <div class="col s12 m6 l4">
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="https://adbeus.com/chicago/ugly-mug-cafe/">
-            <img width="305" height="229" src="https://adbeus.com/wp-content/uploads/2016/11/acymngxbxu87xroakfoi-305x542.jpg" class="responsive-img wp-post-image" alt="Ugly Mug Cafe" title="Ugly Mug Cafe" srcset="https://adbeus.com/wp-content/uploads/2016/11/acymngxbxu87xroakfoi-305x542.jpg 305w, https://adbeus.com/wp-content/uploads/2016/11/acymngxbxu87xroakfoi-169x300.jpg 169w, https://adbeus.com/wp-content/uploads/2016/11/acymngxbxu87xroakfoi.jpg 405w" sizes="(max-width: 305px) 100vw, 305px" />    </a>
+            <a href="${$('.title').html()}/${data['drinks'][i]['strDrink']}">
+            <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}" alt="${data['drinks'][i]['strDrink']}" title="${data['drinks'][i]['strDrink']}">
+            </a>
           </div>
           <div class="card-content">
-            <p class="area"><a href="https://adbeus.com/coffee/chicago/">Chicago</a></p>
-            <a href="https://adbeus.com/chicago/ugly-mug-cafe/" data-deeplink="adbeus://ugly-mug-cafe"><span class="card-title activator brown-text text-darken-4">Ugly Mug Cafe</span></a>
+            <p class="area"><a href="${$('.title').html()}/${data['drinks'][i]['strDrink']}">See recipe</a></p>
+            <a href="${$('.title').html()}/${data['drinks'][i]['strDrink']}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
           </div>
         </div>
       </div>
     `)
   );
-  console.log(data)
 }
 
 function erro() {
   console.log(error);
-}
-
-function product(ctx) {
-  console.log(ctx.params.productId);
 }
