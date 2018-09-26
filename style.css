@@ -1,25 +1,4 @@
-.logo-size {
-  width: 60px;
-  height: 60px;
-}
-
-.my-bg-verde {
-  background-color: #369736;
-}
-
-nav a {
-  color: white;
-}
-
-nav a:hover {
-  color: #212529;
-  text-decoration: none;
-}
-
-.my-border-radius {
-  border-radius: 21px 21px 0 0;
-}
-
-.my-h-50 {
-  height: 200px;
+body {
+  font-family: 'Abel', sans-serif;
+  background-color: #F6F4F1;
 }
