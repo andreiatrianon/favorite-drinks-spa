@@ -16,6 +16,10 @@ body {
   display: block;
 }
 
+.favorite-icon {
+  color: #86A8A8;
+}
+
 .favorite-icon:hover {
-  border-color: #846C63;
+  color: #039be5;
 }

@@ -47,7 +47,7 @@ function getEachCategory(data) {
       <div class="col s12 m6 l4">                            
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="${Object.values(el)[0].replace(/\//g,'-')}">
+            <a href="${Object.values(el)[0].replace(/\//g,'&&')}">
               <img width="305" height="229" src="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg" class="responsive-img wp-post-image" alt="Noble Café" title="Noble Café" srcset="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg 305w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-300x225.jpg 300w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-768x576.jpg 768w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c.jpg 800w" sizes="(max-width: 305px) 100vw, 305px" />
               <span class="card-title home">${Object.values(el)[0]}</span>
             </a>
@@ -60,7 +60,7 @@ function getEachCategory(data) {
 
 function getRecipesList(ctx) {
   let categoryNameFromURI = ctx.params.categoryName;
-  let thisCategory = categoryNameFromURI.replace(/-/g,'/');
+  let thisCategory = categoryNameFromURI.replace(/&&/g,'/');
   mainTemplateDefault('recipes-list', thisCategory);
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=' + thisCategory.replace(' ','_');
   let success = getEachRecipe;
@@ -69,7 +69,7 @@ function getRecipesList(ctx) {
 
 function getRecipePage(ctx) {
   let drinkNameFromURI = ctx.params.recipeName;
-  let drinkName = drinkNameFromURI.replace(/-/g,'/');
+  let drinkName = drinkNameFromURI.replace(/&&/g,'/');
   recipeTemplateDefault(drinkName);
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drinkName.replace(' ','_');
   let success = getEachInstruction;
@@ -127,20 +127,20 @@ function getIngredients(obj) {
 
 
 function getEachRecipe(data) {
-  let categoryNameToURI = $('.title').html().replace(/\//g,'-');
+  let categoryNameToURI = $('.title').html().replace(/\//g,'&&');
   data['drinks'].map((el, i) =>
     $('#recipes-list').append(`
       <div class="col s12 m6 l4">
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}">
+            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}">
             <span class="card-title"><i id="favorite-icon-${data['drinks'][i]['idDrink']}" class="favorite-icon medium material-icons">favorite</i></span>
             <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
             </a>
           </div>
           <div class="card-content">
-            <p class="area"><a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}">See recipe</a></p>
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
+            <p class="area"><a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}">See recipe</a></p>
+            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
           </div>
         </div>
       </div>
