@@ -69,8 +69,61 @@ function getRecipesList(ctx) {
 
 function getRecipePage(ctx) {
   let drinkName = ctx.params.recipeName;
-  console.log(drinkName);
+  recipeTemplateDefault(drinkName);
+  let url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drinkName.replace(' ','_');
+  let success = getEachInstruction;
+  requestAPI(url, success);
 }
+
+function recipeTemplateDefault(drinkName) {
+  $('main').html(`
+    <div class="container my-font-color">
+      <div class="section"> 
+        <div class="row">      
+          <div class="col l12">
+            <article class="post-2548 post type-post status-publish format-standard has-post-thumbnail hentry category-downtown tag-mtlcafecrawl roaster-cut-coffee roaster-george-howell roaster-path-coffee-roasters roaster-st-henri roaster-the-barn-coffee-roasters roaster-transcend supplier-guillaume metro-orange metro-sherbrooke moods-community moods-philosophical purpose-social-meetups purpose-work" id="post-2548">
+              <div class="row">
+                <div class="col l8 s12">
+                  <h4>${drinkName}</h4>
+                  <img id="recipe-img" width="800" height="600" src="" class="single-photo responsive-img z-depth-3 wp-post-image" sizes="(max-width: 800px) 100vw, 800px">
+                </div>
+                <div class="col l4 s12">
+                  <div class="card-panel my-bg-color" style="min-height: 640px;">
+                    <h6>RECIPE</h6>
+                    <hr>
+                    <span class="detail-title"><i class="tiny material-icons">shopping_cart</i> Ingredients</span>
+                    <ul id="ingredients-list"></ul>
+                    <hr>
+                    <span class="detail-title"><i class="tiny material-icons">menu</i> Instructions</span>
+                    <p id="recipe-instructions"></p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function getEachInstruction(data) {
+  let obj = data['drinks'][0];
+  $("#recipe-img").attr('src', obj['strDrinkThumb']);
+  getIngredients(obj);
+  $('#recipe-instructions').html(obj['strInstructions']);  
+}
+
+function getIngredients(obj) {
+  for (key in obj) {
+    if ((key.slice(0, 13) === 'strIngredient') && (obj[key] !== '')) {
+      $('#ingredients-list').append(`
+      <li><i class="tiny material-icons">check</i> ${obj[key]}</li>
+      `);
+    }
+  }
+}
+
 
 function getEachRecipe(data) {
   data['drinks'].map((el, i) =>
@@ -93,5 +146,5 @@ function getEachRecipe(data) {
 }
 
 function erro() {
-  console.log(error);
+  console.log('Error in API requesting');
 }
