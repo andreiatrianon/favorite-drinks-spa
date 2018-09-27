@@ -59,8 +59,8 @@ function getEachCategory(data) {
 }
 
 function getRecipesList(ctx) {
-  let categoryNameInURI = ctx.params.categoryName;
-  let thisCategory = categoryNameInURI.replace(/-/g,'/');
+  let categoryNameFromURI = ctx.params.categoryName;
+  let thisCategory = categoryNameFromURI.replace(/-/g,'/');
   mainTemplateDefault('recipes-list', thisCategory);
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=' + thisCategory.replace(' ','_');
   let success = getEachRecipe;
@@ -68,7 +68,8 @@ function getRecipesList(ctx) {
 }
 
 function getRecipePage(ctx) {
-  let drinkName = ctx.params.recipeName;
+  let drinkNameFromURI = ctx.params.recipeName;
+  let drinkName = drinkNameFromURI.replace(/-/g,'/');
   recipeTemplateDefault(drinkName);
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drinkName.replace(' ','_');
   let success = getEachInstruction;
@@ -132,13 +133,14 @@ function getEachRecipe(data) {
       <div class="col s12 m6 l4">
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink']}">
-            <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}" alt="${data['drinks'][i]['strDrink']}" title="${data['drinks'][i]['strDrink']}">
+            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}">
+            <span class="card-title"><i id="favorite-icon-${data['drinks'][i]['idDrink']}" class="favorite-icon medium material-icons">favorite</i></span>
+            <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
             </a>
           </div>
           <div class="card-content">
-            <p class="area"><a href="${categoryNameToURI}/${data['drinks'][i]['strDrink']}">See recipe</a></p>
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink']}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
+            <p class="area"><a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}">See recipe</a></p>
+            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'-')}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
           </div>
         </div>
       </div>
