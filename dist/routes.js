@@ -49,7 +49,7 @@ function mainTemplateDefault(id, title) {
     <div class="section">
       <div class="row">
         <div class="col s12">                    
-          <div id="${id}" class="section">
+          <div id="${id}" class="section to-list">
             <div class="col s12">
               <span class="title">${title}</span>
             </div>
@@ -79,7 +79,7 @@ function getEachCategory(data) {
 }
 
 function getFavoriteList(ctx) {
-  mainTemplateDefault('recipes-list', 'My Favorite Recipes');
+  mainTemplateDefault('favorite-list', 'My Favorite Recipes');
   let favoriteList = localStorage.getItem('favoriteList').split(',');
   favoriteList.forEach( function (el) {
     let idDrink = el.split('-')[2];
@@ -160,12 +160,12 @@ function getIngredients(obj) {
 function getEachRecipe(data) {
   let categoryNameToURI = $('.title').html().replace(/\//g,'&&');
   data['drinks'].map((el, i) =>
-    $('#recipes-list').append(`
-      <div class="col s12 m6 l4">
+    $('.to-list').append(`
+      <div class="col s12 m6 l4 to-remove">
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
             <span class="card-title favorite-icon">
-              <i id="favorite-recipe-${data['drinks'][i]['idDrink']}" class="medium material-icons favorite-icon-unselected" onclick="toFavoriteRecipe(this)">favorite</i>
+              <i id="favorite-recipe-${data['drinks'][i]['idDrink']}" class="medium material-icons ${verifyRecipeIsFavorite('favorite-recipe-' + data['drinks'][i]['idDrink'])}" onclick="toFavoriteRecipe(this)">favorite</i>
             </span>
             <a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(this)">
               <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
@@ -181,6 +181,15 @@ function getEachRecipe(data) {
   );
 }
 
+function verifyRecipeIsFavorite(id) {
+  let favoriteList = localStorage.getItem('favoriteList');
+  if (favoriteList.includes(id)) {
+    return 'favorite-icon-selected';
+  } else {
+    return 'favorite-icon-unselected';
+  }
+}
+
 function toFavoriteRecipe(recipeSelected) {
   setClassToFavoriteIcon(recipeSelected);
   toUpdateFavoriteList(recipeSelected);
@@ -190,10 +199,15 @@ function setClassToFavoriteIcon(recipeSelected) {
   if ($(recipeSelected).hasClass('favorite-icon-selected')) {
     $(recipeSelected).removeClass('favorite-icon-selected');
     $(recipeSelected).addClass('favorite-icon-unselected');
+    removeRecipeFromFavoriteList(recipeSelected);
   } else {
     $(recipeSelected).removeClass('favorite-icon-unselected');
     $(recipeSelected).addClass('favorite-icon-selected');
   }
+}
+
+function removeRecipeFromFavoriteList(recipeSelected) {
+  $(recipeSelected).closest('#favorite-list .to-remove').fadeOut('slow');
 }
 
 function toUpdateFavoriteList(recipeSelected) {
