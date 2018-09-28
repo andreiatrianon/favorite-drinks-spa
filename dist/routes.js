@@ -5,8 +5,23 @@
  page('*', notfound);
  page();
 
+
 let favoriteList = [];
 localStorage.setItem('favoriteList', favoriteList.toString);
+
+$('#favorite-list-btn').click(redirectToFavoriteRecipesPage);
+
+function redirectToFavoriteRecipesPage() {
+  page.redirect('/myFavoriteRecipes');
+}
+
+function redirectToRecipesPage(categoryLink) {
+  page('/search/' + categoryLink.name);
+}
+
+function redirectToOneRecipePage(recipeLink) {
+  page('/search/' + recipeLink.name);
+}
 
 function index() {
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -47,12 +62,12 @@ function mainTemplateDefault(id, title) {
 }
 
 function getEachCategory(data) {
-  data['drinks'].map(el => 
+  data['drinks'].map((el, i) => 
     $('#categories').append(`
       <div class="col s12 m6 l4">                            
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="search/${Object.values(el)[0].replace(/\//g,'&&')}">
+            <a name="${Object.values(el)[0].replace(/\//g,'&&')}" href="" onclick="redirectToRecipesPage(this)">
               <img width="305" height="229" src="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg" class="responsive-img wp-post-image" alt="Noble Café" title="Noble Café" srcset="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg 305w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-300x225.jpg 300w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-768x576.jpg 768w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c.jpg 800w" sizes="(max-width: 305px) 100vw, 305px" />
               <span class="card-title home">${Object.values(el)[0]}</span>
             </a>
@@ -152,13 +167,13 @@ function getEachRecipe(data) {
             <span class="card-title favorite-icon">
               <i id="favorite-recipe-${data['drinks'][i]['idDrink']}" class="medium material-icons favorite-icon-unselected" onclick="toFavoriteRecipe(this)">favorite</i>
             </span>
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}">
+            <a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(this)">
               <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
             </a>
           </div>
           <div class="card-content">
-            <p class="area"><a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}">See recipe</a></p>
-            <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
+            <p class="area"><a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(this)">See recipe</a></p>
+            <a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(this)" class="card-title activator brown-text text-darken-4">${data['drinks'][i]['strDrink']}</span></a>
           </div>
         </div>
       </div>
