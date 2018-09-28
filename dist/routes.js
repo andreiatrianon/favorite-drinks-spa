@@ -1,10 +1,9 @@
- page('/', index);
- page('/:myFavoriteRecipes', getFavoriteList);
- page('/:search/:categoryName', getRecipesList);
- page('/:search/:categoryName/:recipeName', getRecipePage);
- page('*', notfound);
- page();
-
+page('/', index);
+page('/:myFavoriteRecipes', getFavoriteList);
+page('/:search/:categoryName', getRecipesList);
+page('/:search/:categoryName/:recipeName', getRecipePage);
+page('*', notfound);
+page();
 
 let favoriteList = [];
 localStorage.setItem('favoriteList', favoriteList.toString);
@@ -128,7 +127,7 @@ function recipeTemplateDefault(drinkName) {
             <article class="post-2548 post type-post status-publish format-standard has-post-thumbnail hentry category-downtown tag-mtlcafecrawl roaster-cut-coffee roaster-george-howell roaster-path-coffee-roasters roaster-st-henri roaster-the-barn-coffee-roasters roaster-transcend supplier-guillaume metro-orange metro-sherbrooke moods-community moods-philosophical purpose-social-meetups purpose-work" id="post-2548">
               <div class="row">
                 <div class="col l8 s12">
-                  <h4>${drinkName}</h4>
+                  <h4>${drinkName} <i id="" class="favorite-icon small material-icons" onclick="toFavoriteRecipe(this)">favorite</i></h4>  
                   <img id="recipe-img" width="800" height="600" src="" class="single-photo responsive-img z-depth-3 wp-post-image" sizes="(max-width: 800px) 100vw, 800px">
                 </div>
                 <div class="col l4 s12">
@@ -154,8 +153,9 @@ function recipeTemplateDefault(drinkName) {
 function getEachInstruction(data) {
   let obj = data['drinks'][0];
   $("#recipe-img").attr('src', obj['strDrinkThumb']);
+  $('#recipe-instructions').html(obj['strInstructions']);
   getIngredients(obj);
-  $('#recipe-instructions').html(obj['strInstructions']);  
+  insertFavoriteBtn(obj);
 }
 
 function getIngredients(obj) {
@@ -168,6 +168,10 @@ function getIngredients(obj) {
   }
 }
 
+function insertFavoriteBtn(obj) {
+  $(".favorite-icon").attr('id', `favorite-recipe-${obj['idDrink']}`);
+  $(".favorite-icon").addClass(verifyRecipeIsFavorite(`favorite-recipe-${obj['idDrink']}`));
+}
 
 function getEachRecipe(data) {
   let categoryNameToURI = $('.title').html().replace(/\//g,'&&');

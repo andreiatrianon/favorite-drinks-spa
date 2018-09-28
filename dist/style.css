@@ -32,7 +32,7 @@ body {
   color: #846C63;
 }
 
-.favorite-icon i:hover {
+.favorite-icon i:hover, h4 i:hover {
   cursor: pointer;
   color: #039be5;
 }
