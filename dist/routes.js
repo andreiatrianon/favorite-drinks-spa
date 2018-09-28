@@ -1,7 +1,12 @@
  page('/', index);
- page('/:categoryName', getRecipesList);
- page('/:categoryName/:recipeName', getRecipePage);
+ page('/:myFavoriteRecipes', getFavoriteList);
+ page('/:search/:categoryName', getRecipesList);
+ page('/:search/:categoryName/:recipeName', getRecipePage);
+ page('*', notfound);
  page();
+
+let favoriteList = [];
+localStorage.setItem('favoriteList', favoriteList.toString);
 
 function index() {
   let url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
@@ -47,7 +52,7 @@ function getEachCategory(data) {
       <div class="col s12 m6 l4">                            
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a href="${Object.values(el)[0].replace(/\//g,'&&')}">
+            <a href="search/${Object.values(el)[0].replace(/\//g,'&&')}">
               <img width="305" height="229" src="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg" class="responsive-img wp-post-image" alt="Noble Café" title="Noble Café" srcset="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg 305w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-300x225.jpg 300w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-768x576.jpg 768w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c.jpg 800w" sizes="(max-width: 305px) 100vw, 305px" />
               <span class="card-title home">${Object.values(el)[0]}</span>
             </a>
@@ -56,6 +61,17 @@ function getEachCategory(data) {
       </div>
     `)
   );
+}
+
+function getFavoriteList(ctx) {
+  mainTemplateDefault('recipes-list', 'My Favorite Recipes');
+  let favoriteList = localStorage.getItem('favoriteList').split(',');
+  favoriteList.forEach( function (el) {
+    let idDrink = el.split('-')[2];
+    let url = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + idDrink;
+    let success = getEachRecipe;
+    requestAPI(url, success);
+  });
 }
 
 function getRecipesList(ctx) {
@@ -117,7 +133,7 @@ function getEachInstruction(data) {
 
 function getIngredients(obj) {
   for (key in obj) {
-    if ((key.slice(0, 13) === 'strIngredient') && (obj[key] !== '')) {
+    if ((key.slice(0, 13) === 'strIngredient') && (obj[key] !== '') && (obj[key] !== null)) {
       $('#ingredients-list').append(`
       <li><i class="tiny material-icons">check</i> ${obj[key]}</li>
       `);
@@ -133,9 +149,11 @@ function getEachRecipe(data) {
       <div class="col s12 m6 l4">
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
+            <span class="card-title favorite-icon">
+              <i id="favorite-recipe-${data['drinks'][i]['idDrink']}" class="medium material-icons favorite-icon-unselected" onclick="toFavoriteRecipe(this)">favorite</i>
+            </span>
             <a href="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}">
-            <span class="card-title"><i id="favorite-icon-${data['drinks'][i]['idDrink']}" class="favorite-icon medium material-icons">favorite</i></span>
-            <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
+              <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
             </a>
           </div>
           <div class="card-content">
@@ -146,6 +164,37 @@ function getEachRecipe(data) {
       </div>
     `)
   );
+}
+
+function toFavoriteRecipe(recipeSelected) {
+  setClassToFavoriteIcon(recipeSelected);
+  toUpdateFavoriteList(recipeSelected);
+}
+
+function setClassToFavoriteIcon(recipeSelected) {
+  if ($(recipeSelected).hasClass('favorite-icon-selected')) {
+    $(recipeSelected).removeClass('favorite-icon-selected');
+    $(recipeSelected).addClass('favorite-icon-unselected');
+  } else {
+    $(recipeSelected).removeClass('favorite-icon-unselected');
+    $(recipeSelected).addClass('favorite-icon-selected');
+  }
+}
+
+function toUpdateFavoriteList(recipeSelected) {
+  if ($(recipeSelected).hasClass('favorite-icon-selected')) {
+    favoriteList.push(recipeSelected.id);
+    $('#favorites-counter').html(favoriteList.length);
+    localStorage.setItem('favoriteList', favoriteList);
+  } else {
+    favoriteList = favoriteList.filter(el => el !== recipeSelected.id);
+    $('#favorites-counter').html(favoriteList.length);
+    localStorage.setItem('favoriteList', favoriteList);
+  }
+}
+
+function notfound() {
+  $('main').html('Page not found');
 }
 
 function erro() {

@@ -16,10 +16,24 @@ body {
   display: block;
 }
 
-.favorite-icon {
-  color: #86A8A8;
+.favorite-icon-unselected {
+  color: #846C63;
 }
 
-.favorite-icon:hover {
+.favorite-icon i:hover {
+  cursor: pointer;
   color: #039be5;
+}
+
+.favorite-icon-selected {
+  color: #039be5;
+}
+
+#favorite-icon-nav, #favorite-icon-nav + span {
+  display: inline;
+  vertical-align: middle;
+}
+
+#favorites-counter {
+  color: #795548;
 }
