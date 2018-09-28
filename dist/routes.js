@@ -62,20 +62,32 @@ function mainTemplateDefault(id, title) {
 }
 
 function getEachCategory(data) {
-  data['drinks'].map((el, i) => 
+  data['drinks'].map((el, i) => {
     $('#categories').append(`
       <div class="col s12 m6 l4">                            
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
             <a name="${Object.values(el)[0].replace(/\//g,'&&')}" href="" onclick="redirectToRecipesPage(this)">
-              <img width="305" height="229" src="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg" class="responsive-img wp-post-image" alt="Noble Café" title="Noble Café" srcset="https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-305x229.jpg 305w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-300x225.jpg 300w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c-768x576.jpg 768w, https://adbeus.com/wp-content/uploads/2016/11/s1odxcae9cjag71iye1c.jpg 800w" sizes="(max-width: 305px) 100vw, 305px" />
-              <span class="card-title home">${Object.values(el)[0]}</span>
+              <img id="category-img-${i}" width="305" height="229" src="" class="responsive-img wp-post-image">
+              <span class="card-title text-brown">${Object.values(el)[0]}</span>
             </a>
           </div>
         </div>
       </div>
     `)
-  );
+    getSrcCategoryImg(Object.values(el)[0], i);
+  });
+}
+
+function getSrcCategoryImg(thisCategory, indexImg) {
+  $.ajax({
+    type: 'GET',
+    url:'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=' + thisCategory,
+    success: function (data) {
+      $(`#category-img-${indexImg}`).attr('src', data['drinks'][0]['strDrinkThumb']);
+    },
+    error: erro
+  });
 }
 
 function getFavoriteList(ctx) {
@@ -120,7 +132,7 @@ function recipeTemplateDefault(drinkName) {
                   <img id="recipe-img" width="800" height="600" src="" class="single-photo responsive-img z-depth-3 wp-post-image" sizes="(max-width: 800px) 100vw, 800px">
                 </div>
                 <div class="col l4 s12">
-                  <div class="card-panel my-bg-color" style="min-height: 640px;">
+                  <div class="card-panel my-bg-color" style="min-height: 800px;">
                     <h6>RECIPE</h6>
                     <hr>
                     <span class="detail-title"><i class="tiny material-icons">shopping_cart</i> Ingredients</span>

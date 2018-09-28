@@ -7,13 +7,25 @@ body {
   background-color: #F0E5D7
 }
 
-.my-font-color {
+.title, .my-font-color {
   color: #846C63;
+}
+
+#categories .card-title {
+  color: black;
+  padding: 20px 0 10px 20px;
+  font-size: 40px;
+  line-height: 50px;
+  font-weight: 400;
 }
 
 .detail-title {
   font-weight: 700;
   display: block;
+}
+
+#categories span {
+  text-transform: uppercase;
 }
 
 .favorite-icon-unselected {
