@@ -3,6 +3,17 @@ body {
   background-color: #F6F4F1;
 }
 
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main {
+  margin-top: 5vw;
+}
+
 .my-bg-color {
   background-color: #F0E5D7
 }

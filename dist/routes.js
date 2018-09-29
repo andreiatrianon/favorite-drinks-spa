@@ -15,11 +15,12 @@ function redirectToFavoriteRecipesPage() {
 }
 
 function redirectToRecipesPage(categoryLink) {
-  page('/search/' + categoryLink.name);
+  page(`/search/${categoryLink.name}`);
 }
 
-function redirectToOneRecipePage(recipeLink) {
-  page('/search/' + recipeLink.name);
+function redirectToOneRecipePage(event, recipeLink) {
+  event.preventDefault();
+  page(`/search/'${recipeLink.name}`);
 }
 
 function index() {
@@ -183,7 +184,7 @@ function getEachRecipe(data) {
             <span class="card-title favorite-icon">
               <i id="favorite-recipe-${data['drinks'][i]['idDrink']}" class="medium material-icons ${verifyRecipeIsFavorite('favorite-recipe-' + data['drinks'][i]['idDrink'])}" onclick="toFavoriteRecipe(this)">favorite</i>
             </span>
-            <a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(this)">
+            <a name="${categoryNameToURI}/${data['drinks'][i]['strDrink'].replace(/\//g,'&&')}" onclick="redirectToOneRecipePage(event, this)">
               <img width="305" height="229" src="${data['drinks'][i]['strDrinkThumb']}">
             </a>
           </div>
