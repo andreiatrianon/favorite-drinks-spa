@@ -127,7 +127,7 @@ function recipeTemplateDefault(drinkName) {
             <article class="post-2548 post type-post status-publish format-standard has-post-thumbnail hentry category-downtown tag-mtlcafecrawl roaster-cut-coffee roaster-george-howell roaster-path-coffee-roasters roaster-st-henri roaster-the-barn-coffee-roasters roaster-transcend supplier-guillaume metro-orange metro-sherbrooke moods-community moods-philosophical purpose-social-meetups purpose-work" id="post-2548">
               <div class="row">
                 <div class="col l8 s12">
-                  <h4>${drinkName} <i id="" class="favorite-icon small material-icons" onclick="toFavoriteRecipe(this)">favorite</i></h4>  
+                  <h4>${drinkName} <i id="" class="favorite-icon large material-icons" onclick="toFavoriteRecipe(this)">favorite</i></h4>  
                   <img id="recipe-img" width="800" height="600" src="" class="single-photo responsive-img z-depth-3 wp-post-image" sizes="(max-width: 800px) 100vw, 800px">
                 </div>
                 <div class="col l4 s12">

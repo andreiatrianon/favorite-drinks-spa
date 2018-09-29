@@ -12,10 +12,7 @@ body {
 }
 
 #categories .card-title {
-  color: black;
-  padding: 20px 0 10px 20px;
-  font-size: 40px;
-  line-height: 50px;
+  background: rgba(17, 14, 12, 0.6);
   font-weight: 400;
 }
 
@@ -26,6 +23,12 @@ body {
 
 #categories span {
   text-transform: uppercase;
+}
+
+h4 i {
+  position: absolute;
+  top: 12vw;
+  left: 50vw;
 }
 
 .favorite-icon-unselected {
@@ -48,4 +51,18 @@ body {
 
 #favorites-counter {
   color: #795548;
+}
+
+#footer {
+  background-color: rgba(189,177,173,0.1);
+}
+
+#footer .footer-copyright {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #88AAA9;
+}
+
+#footer .footer-copyright a {
+  color: #846C63;
 }
