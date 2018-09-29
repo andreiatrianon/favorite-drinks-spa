@@ -14,10 +14,6 @@ function redirectToFavoriteRecipesPage() {
   page.redirect('/myFavoriteRecipes');
 }
 
-function redirectToRecipesPage(categoryLink) {
-  page(`/search/${categoryLink.name}`);
-}
-
 function redirectToOneRecipePage(event, recipeLink) {
   event.preventDefault();
   page(`/search/'${recipeLink.name}`);
@@ -67,7 +63,7 @@ function getEachCategory(data) {
       <div class="col s12 m6 l4">                            
         <div class="card">
           <div class="card-image waves-effect waves-block waves-light">
-            <a name="${Object.values(el)[0].replace(/\//g,'&&')}" href="" onclick="redirectToRecipesPage(this)">
+            <a name="${Object.values(el)[0].replace(/\//g,'&&')}" href="/search/${Object.values(el)[0].replace(/\//g,'&&')}">
               <img id="category-img-${i}" width="305" height="229" src="" class="responsive-img wp-post-image">
               <span class="card-title text-brown">${Object.values(el)[0]}</span>
             </a>
