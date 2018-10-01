@@ -14,6 +14,7 @@ You can see the project results in this link [Firebase hosting](https://favorite
 * [Express](https://www.npmjs.com/package/express) - npm library
 * [Node.js](https://nodejs.org/en/) - server environment
 * [The Cocktail DB API](https://github.com/PurpleBooth) - API
+* [ajax jQuery](http://api.jquery.com/jquery.ajax/) - API request
 * [Firebase](https://firebase.google.com/) - web hosting
 
 ## Author
