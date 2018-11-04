@@ -3,6 +3,8 @@
 Project of Single Page Application (SPA) as theme a list of drinks recipe. The goal of this project was having route at least two pages, requesting one API, and using "localStrorage" to save page data.
 The results was a SPA with a initial page, page with list of recipes, page with the recipe selected and page with list of favorite recipes, using database from [The Cocktail DB API](https://www.thecocktaildb.com/api.php).
 
+![Demo](./favorite-drinks-spa.gif)
+
 ## Running the aplication
 
 You can see the project results in this link [Firebase hosting](https://favorite-drinks-spa.firebaseapp.com).
