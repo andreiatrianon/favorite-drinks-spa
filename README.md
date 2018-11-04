@@ -20,11 +20,3 @@ You can see the project results in this link [Firebase hosting](https://favorite
 ## Author
 
 * **Andreia Trianon** - [andreiatrianon](https://github.com/andreiatrianon)
-
-## Acknowledgments
-
-Laboratoria's mentors:
-
-* **Juliana Amoasei** - [JulianaAmoasei](https://github.com/JulianaAmoasei)
-* **Daniel Cukier** - [danicuki](https://github.com/danicuki)
-* **Rafael Cerri** - [rafaelbcerri](https://github.com/rafaelbcerri)
